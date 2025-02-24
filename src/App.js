@@ -8,11 +8,32 @@ import Viewer from "./components/Viewer";
 export default function App() {
   const categories = ["Personal", "Work", "Studies", "Family"];
   const [tasks, setTasks] = useState(new Map());
+  const [showCat, setShowCat] = useState("All");
 
   function addTask(taskName, category) {
     newTasks = new Map(tasks);
     newTasks.set(taskName, category);
     setTasks(newTasks);
+  }
+
+  function deleteTask(taskName) {
+    newTasks = new Map(tasks);
+    newTasks.delete(taskName);
+    setTasks(newTasks);
+  }
+
+  function filterCategory(category) {
+    setShowCat(category);
+  }
+
+  function getShowTasks() {
+    retMap = new Map();
+    for (const t of tasks.keys()) {
+      if (showCat === "All" || tasks.get(t) === showCat) {
+        retMap.set(t, tasks.get(t));
+      }
+    }
+    return retMap;
   }
 
   return (
@@ -22,7 +43,12 @@ export default function App() {
       </div>
       <Stack gap={2}>
         <Adder categories={categories} newTask={addTask} />
-        <Viewer categories={categories} tasks={new Map(tasks)} />
+        <Viewer
+          categories={categories}
+          tasks={getShowTasks()}
+          delTask={deleteTask}
+          filter={filterCategory}
+        />
       </Stack>
     </>
   );

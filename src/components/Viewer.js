@@ -12,19 +12,19 @@ function CatFilter({ categories }) {
   );
 }
 
-function TaskObj() {
+function TaskObj({ category, taskName }) {
   return (
     <Card style={{ textAlign: "left" }}>
-      <Card.Header>Category</Card.Header>
+      <Card.Header>{category}</Card.Header>
       <Card.Body>
-        <Card.Title>Task</Card.Title>
+        <Card.Title>{taskName}</Card.Title>
         <Button variant="danger">Delete</Button>
       </Card.Body>
     </Card>
   );
 }
 
-export default function Viewer({ categories }) {
+export default function Viewer({ categories, tasks }) {
   return (
     <>
       <div className="h4" style={{ textAlign: "left" }}>
@@ -32,7 +32,9 @@ export default function Viewer({ categories }) {
       </div>
       <h6>Filter by</h6>
       <CatFilter categories={categories} />
-      <TaskObj />
+      {tasks.keys().map((t) => (
+        <TaskObj category={tasks.get(t)} taskName={t} />
+      ))}
     </>
   );
 }

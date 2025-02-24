@@ -7,6 +7,13 @@ import Viewer from "./components/Viewer";
 
 export default function App() {
   const categories = ["Personal", "Work", "Studies", "Family"];
+  const [tasks, setTasks] = useState(new Map());
+
+  function addTask(taskName, category) {
+    newTasks = new Map(tasks);
+    newTasks.set(taskName, category);
+    setTasks(newTasks);
+  }
 
   return (
     <>
@@ -14,8 +21,8 @@ export default function App() {
         <h1>Task Manager</h1>
       </div>
       <Stack gap={2}>
-        <Adder categories={categories} />
-        <Viewer categories={categories} />
+        <Adder categories={categories} newTask={addTask} />
+        <Viewer categories={categories} tasks={new Map(tasks)} />
       </Stack>
     </>
   );
